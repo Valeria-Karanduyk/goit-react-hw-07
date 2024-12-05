@@ -6,22 +6,26 @@ import { FaTrashAlt } from "react-icons/fa";
 import { MdPhone } from "react-icons/md";
 import { BsPersonFill } from "react-icons/bs";
 
-const Contact = ({ id, name, number }) => {
+const Contact = ({ contact }) => {
   const dispatch = useDispatch();
+
+  const handleDelete = (id) => {
+    dispatch(deleteContact(id));
+  };
 
   return (
     <li className={s.list}>
       <div className={s.box}>
         <p className={s.name}>
           <BsPersonFill className={s.icon} />
-          {name}
+          {contact.name}
         </p>
         <p className={s.number}>
           <MdPhone className={s.icon} />
-          {number}
+          {contact.number}
         </p>
       </div>
-      <button className={s.btn} onClick={() => dispatch(deleteContact(id))}>
+      <button className={s.btn} onClick={() => handleDelete(contact.id)}>
         <FaTrashAlt />
       </button>
     </li>

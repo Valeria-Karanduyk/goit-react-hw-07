@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addContact, selectContacts } from "../../redux/contactsSlice";
+import { addContact } from "../../redux/contactsOps";
+import { selectContacts } from "../../redux/contactsSlice";
 import { ErrorMessage, Form, Field, Formik } from "formik";
 import * as Yup from "yup";
 import { MdPersonAddAlt1 } from "react-icons/md";

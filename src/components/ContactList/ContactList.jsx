@@ -1,25 +1,41 @@
-import React from "react";
 import { useSelector } from "react-redux";
-import { selectContacts } from "../../redux/contactsSlice";
-import { selectNameFilter } from "../../redux/filtersSlice";
-import Contact from "../Contact/Contact";
 import s from "./ContactList.module.css";
+import Contact from "../Contact/Contact";
+import {
+  selectError,
+  selectTotalContacts,
+  selectFilteredContacts,
+} from "../../redux/contactsSlice";
+import { selectNameFilter } from "../../redux/filtersSlice";
 
 const ContactList = () => {
-  const contacts = useSelector(selectContacts);
   const filter = useSelector(selectNameFilter);
-
-  const filteredContacts = contacts.filter((contact) =>
-    contact.name.toLowerCase().includes(filter.toLowerCase())
-  );
-
-  console.log(filteredContacts);
-  return (
-    <ul className={s.list}>
-      {filteredContacts.map(({ id, name, number }) => (
-        <Contact key={id} id={id} name={name} number={number} />
-      ))}
-    </ul>
+  const totalContacts = useSelector(selectTotalContacts);
+  const filteredContacts = useSelector(selectFilteredContacts);
+  const error = useSelector(selectError);
+  return !error ? (
+    <>
+      <div className={s.box}>
+        <p className={s.total}>
+          Total contacts: <span>{totalContacts}</span>
+        </p>
+        {filter && (
+          <p className={s.found}>
+            Found: <span>{filteredContacts.length}</span>
+          </p>
+        )}
+      </div>
+      <ul className={s.list}>
+        {filteredContacts.map((contact) => (
+          <Contact key={contact.id} contact={contact} />
+        ))}
+      </ul>
+    </>
+  ) : (
+    <div className={s.error}>
+      <p>Failed to fetch</p>
+      {error}!
+    </div>
   );
 };
 
